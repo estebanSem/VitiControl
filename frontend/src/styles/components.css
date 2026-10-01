@@ -408,24 +408,6 @@ footer > span:first-child {
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
 }
-.parcel-card {
-  padding: 25px;
-}
-.parcel-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-.parcel-symbol {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  background: #eee6fc;
-  color: var(--purple);
-  border-radius: 12px;
-}
 .parcel-card h2 {
   font-size: 1.25rem;
   margin-bottom: 8px;

@@ -1,56 +1,56 @@
 <div class="parcel-grid">
   @for (p of notebook.data().parcels; track p.id) {
     <article class="panel parcel-card">
-      <div class="parcel-top">
-        <span class="parcel-symbol"
-          ><lucide-icon name="sprout" [size]="25" /></span
-        ><span class="soft-tag">{{ p.variety }}</span>
+      <div class="parcel-cover">
+        <span class="soft-tag">{{ p.variety }}</span>
       </div>
-      <h2>{{ p.name }}</h2>
-      <p class="location">
-        <lucide-icon name="map-pin" [size]="15" />{{
-          p.location ||
-            "Sin
+      <div class="parcel-body">
+        <h2>{{ p.name }}</h2>
+        <p class="location">
+          <lucide-icon name="map-pin" [size]="15" />{{
+            p.location ||
+              "Sin
             ubicación registrada"
-        }}
-      </p>
-      <div class="parcel-stats">
-        <div>
-          <strong>{{ format.num(p.area, 2) }}<small> ha</small></strong
-          ><span>Superficie</span>
+          }}
+        </p>
+        <div class="parcel-stats">
+          <div>
+            <strong>{{ format.num(p.area, 2) }}<small> ha</small></strong
+            ><span>Superficie</span>
+          </div>
+          <div>
+            <strong>{{ format.num(p.vines) }}</strong
+            ><span>Cepas</span>
+          </div>
+          <div>
+            <strong>{{ p.planted }}</strong
+            ><span>Plantación</span>
+          </div>
         </div>
-        <div>
-          <strong>{{ format.num(p.vines) }}</strong
-          ><span>Cepas</span>
+        <div class="parcel-harvest">
+          <span>Cosecha {{ notebook.year() }}</span
+          ><strong>{{ format.num(notebook.kg(p.id)) }} kg</strong>
         </div>
-        <div>
-          <strong>{{ p.planted }}</strong
-          ><span>Plantación</span>
+        <p class="parcel-notes">
+          {{ p.notes || "Añade observaciones sobre esta parcela." }}
+        </p>
+        <div class="card-actions">
+          <button class="secondary" (click)="navigation.viewParcel(p)">
+            Ver cuaderno</button
+          ><button
+            class="icon-button"
+            aria-label="Editar parcela"
+            (click)="editor.openParcel(p)"
+          >
+            <lucide-icon name="pencil" [size]="17" /></button
+          ><button
+            class="icon-button"
+            aria-label="Eliminar parcela"
+            (click)="editor.remove('parcels', p.id)"
+          >
+            <lucide-icon name="trash-2" [size]="17" />
+          </button>
         </div>
-      </div>
-      <div class="parcel-harvest">
-        <span>Cosecha {{ notebook.year() }}</span
-        ><strong>{{ format.num(notebook.kg(p.id)) }} kg</strong>
-      </div>
-      <p class="parcel-notes">
-        {{ p.notes || "Añade observaciones sobre esta parcela." }}
-      </p>
-      <div class="card-actions">
-        <button class="secondary" (click)="navigation.viewParcel(p)">
-          Ver cuaderno</button
-        ><button
-          class="icon-button"
-          aria-label="Editar parcela"
-          (click)="editor.openParcel(p)"
-        >
-          <lucide-icon name="pencil" [size]="17" /></button
-        ><button
-          class="icon-button"
-          aria-label="Eliminar parcela"
-          (click)="editor.remove('parcels', p.id)"
-        >
-          <lucide-icon name="trash-2" [size]="17" />
-        </button>
       </div>
     </article>
   } @empty {

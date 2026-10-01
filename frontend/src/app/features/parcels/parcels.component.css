@@ -1,0 +1,32 @@
+/* The photo fills the upper third; details stay on a white surface. */
+.parcel-card {
+  display: grid;
+  grid-template-rows: minmax(160px, 1fr) minmax(0, 2fr);
+  padding: 0;
+}
+
+.parcel-cover {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgb(22 15 32 / 12%), rgb(22 15 32 / 28%)),
+    url("/images/vineyard-cover.jpg") center 58% / cover;
+}
+
+.parcel-cover .soft-tag {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgb(255 255 255 / 94%);
+  color: #583285;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 8%);
+}
+
+.parcel-body {
+  padding: 25px;
+}
+
+@media (max-width: 700px) {
+  .parcel-body {
+    padding: 22px;
+  }
+}

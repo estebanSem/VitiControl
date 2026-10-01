@@ -12,6 +12,7 @@ import { NotebookStore } from "../../core/notebook.store";
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: "./parcels.component.html",
+  styleUrl: "./parcels.component.css",
   host: { style: "display: contents" },
 })
 export class ParcelsPageComponent {
