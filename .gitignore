@@ -1,0 +1,9 @@
+node_modules/
+.angular/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.db
+.env
+uploads/
+.sites-runtime/
