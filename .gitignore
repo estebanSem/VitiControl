@@ -7,3 +7,8 @@ __pycache__/
 .env
 uploads/
 .sites-runtime/
+
+.venv/
+frontend/test-results/
+frontend/playwright-report/
+dist/

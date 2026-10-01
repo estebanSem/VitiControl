@@ -1,0 +1,54 @@
+<aside [class.open]="navigation.menuOpen">
+  <a
+    class="brand"
+    href="#"
+    (click)="$event.preventDefault(); navigation.go('Resumen')"
+    ><span class="brand-mark"><lucide-icon name="sprout" [size]="23" /></span
+    >VitiControl<span class="brand-dot">.</span></a
+  >
+  <div class="workspace-label">MI EXPLOTACIÓN</div>
+  <nav aria-label="Principal">
+    @for (item of navigation.nav; track item.label) {
+      <button
+        [class.active]="navigation.page() === item.label"
+        (click)="navigation.go(item.label)"
+      >
+        <lucide-icon [name]="item.icon" [size]="20" /><span>{{
+          item.label
+        }}</span>
+        @if (item.label === "Agenda" && notebook.pending().length) {
+          <span class="nav-count">{{ notebook.pending().length }}</span>
+        }
+      </button>
+    }
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="season-note">
+      <lucide-icon name="leaf" [size]="20" /><strong
+        >Todo empieza en el campo.</strong
+      >
+      <p>Cada registro cuenta una parte de tu cosecha.</p>
+    </div>
+    <button class="settings" (click)="navigation.go('Configuración')">
+      <lucide-icon name="settings" [size]="19" />Configuración
+    </button>
+    <div class="profile">
+      <span class="avatar">{{ session.demo ? "VC" : "A" }}</span>
+      <div>
+        <strong>{{ session.demo ? "Mi viñedo" : "Administrador" }}</strong
+        ><small>{{
+          session.demo ? "Espacio de demostración" : "Cuaderno privado"
+        }}</small>
+      </div>
+      @if (!session.demo) {
+        <button
+          class="icon-button"
+          aria-label="Cerrar sesión"
+          (click)="auth.logout()"
+        >
+          <lucide-icon name="log-out" [size]="18" />
+        </button>
+      }
+    </div>
+  </div>
+</aside>

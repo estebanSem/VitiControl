@@ -1,1 +1,1 @@
-export const environment = {demo:false};
+export const environment = { demo: false };

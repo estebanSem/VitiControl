@@ -1,0 +1,141 @@
+@if (editor.modal()) {
+  <div class="modal-backdrop" (click)="editor.close()">
+    <section
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      (click)="$event.stopPropagation()"
+      (keydown.tab)="editor.trapTab($event)"
+    >
+      <div class="modal-heading">
+        <div>
+          <span class="eyebrow">TU CUADERNO</span>
+          <h2 id="modal-title">
+            {{
+              editor.modal() === "parcel"
+                ? editor.editingId
+                  ? "Editar parcela"
+                  : "Nueva
+          parcela"
+                : editor.modal() === "campaign"
+                  ? "Nueva
+          campaña"
+                  : editor.modal() === "detail"
+                    ? editor.detail?.title
+                    : editor.editingId
+                      ? "Editar
+          labor"
+                      : "Registrar una labor"
+            }}
+          </h2>
+        </div>
+        <button
+          class="icon-button"
+          aria-label="Cerrar"
+          (click)="editor.close()"
+        >
+          <lucide-icon name="x" [size]="22" />
+        </button>
+      </div>
+      @if (ui.error()) {
+        <div class="error" role="alert">{{ ui.error() }}</div>
+      }
+      @if (editor.modal() === "detail" && editor.detail) {
+        <div class="detail-meta">
+          <span class="badge">{{ editor.detail.kind }}</span
+          ><span
+            >{{ format.date(editor.detail.date) }} ·
+            {{ editor.detail.campaign }}</span
+          >
+        </div>
+        <h3>{{ notebook.parcel(editor.detail.parcel_id)?.name }}</h3>
+        <p class="detail-note">
+          {{ editor.detail.notes || "Sin observaciones." }}
+        </p>
+        <dl>
+          <div>
+            <dt>Cantidad</dt>
+            <dd>
+              {{
+                editor.detail.quantity
+                  ? format.num(editor.detail.quantity, 2) +
+                    " " +
+                    editor.detail.unit
+                  : "—"
+              }}
+            </dd>
+          </div>
+          <div>
+            <dt>Coste</dt>
+            <dd>{{ format.euro(editor.detail.cost) }}</dd>
+          </div>
+          @if (editor.detail.brix !== null) {
+            <div>
+              <dt>Grado Brix</dt>
+              <dd>{{ editor.detail.brix }} °Bx</dd>
+            </div>
+          }
+          @if (editor.detail.product) {
+            <div>
+              <dt>Producto</dt>
+              <dd>{{ editor.detail.product }}</dd>
+            </div>
+            <div>
+              <dt>Dosis</dt>
+              <dd>{{ editor.detail.dose || "Sin registrar" }}</dd>
+            </div>
+          }
+        </dl>
+        <div class="photo-gallery">
+          @for (p of editor.photos(); track p.id) {
+            <a [href]="p.url" target="_blank" rel="noopener"
+              ><img [src]="p.url" alt="Fotografía del registro"
+            /></a>
+          }
+        </div>
+        <label class="photo-upload"
+          ><lucide-icon name="camera" [size]="19" />Añadir fotografía
+          <small>JPEG, PNG o WebP · Máximo 5 MB</small
+          ><input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            (change)="editor.addPhoto($event)"
+            [disabled]="ui.busy()"
+        /></label>
+        <div class="modal-actions">
+          <button
+            class="danger"
+            (click)="editor.remove('records', editor.detail.id)"
+          >
+            Eliminar registro</button
+          ><button
+            class="primary"
+            (click)="editor.openRecord(editor.detail.kind, editor.detail)"
+          >
+            Editar registro
+          </button>
+        </div>
+      } @else {
+        <form (ngSubmit)="editor.save()">
+          @if (editor.modal() === "parcel") {
+            <app-parcel-form />
+          }
+          @if (editor.modal() === "campaign") {
+            <app-campaign-form />
+          }
+          @if (editor.modal() === "record") {
+            <app-record-form />
+          }
+          <div class="modal-actions">
+            <button type="button" class="secondary" (click)="editor.close()">
+              Cancelar</button
+            ><button class="primary" [disabled]="ui.busy()">
+              {{ ui.busy() ? "Guardando…" : "Guardar" }}
+            </button>
+          </div>
+        </form>
+      }
+    </section>
+  </div>
+}

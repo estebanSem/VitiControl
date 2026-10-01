@@ -1,0 +1,27 @@
+<div class="login-page">
+  <form class="login-card" (ngSubmit)="auth.login()">
+    <span class="brand-mark">V</span>
+    <h1>VitiControl<span>.</span></h1>
+    <p>Tu viñedo, en un solo lugar.</p>
+    <label
+      >Usuario<input
+        name="user"
+        [(ngModel)]="auth.user"
+        autocomplete="username"
+        required /></label
+    ><label
+      >Contraseña<input
+        name="password"
+        type="password"
+        [(ngModel)]="auth.password"
+        autocomplete="current-password"
+        required
+    /></label>
+    @if (ui.error()) {
+      <div class="error" role="alert">{{ ui.error() }}</div>
+    }
+    <button class="primary" [disabled]="ui.busy()">
+      {{ ui.busy() ? "Entrando…" : "Entrar a mi cuaderno" }}
+    </button>
+  </form>
+</div>

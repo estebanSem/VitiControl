@@ -1,0 +1,41 @@
+<section class="panel settings-panel">
+  <h2>Campañas</h2>
+  <p>Mantén el histórico organizado por año.</p>
+  @for (c of notebook.data().campaigns; track c.id) {
+    <div class="campaign-row">
+      <span class="year-box">{{ c.year }}</span
+      ><strong>{{ c.name }}</strong
+      ><button
+        class="secondary"
+        (click)="notebook.year.set(c.year); navigation.go('Resumen')"
+      >
+        Abrir
+      </button>
+    </div>
+  }
+</section>
+<section class="panel settings-panel">
+  <h2>
+    {{ session.demo ? "Sobre esta demostración" : "Tu cuaderno privado" }}
+  </h2>
+  <p>
+    {{
+      session.demo
+        ? "Los datos son ficticios. Las modificaciones y fotografías se
+          guardan solo en el navegador actual; no se sincronizan con el proyecto
+          completo."
+        : "Tus registros se guardan en la base de datos del servidor.
+          Exporta regularmente tus registros y conserva una copia de la base de
+          datos y las fotografías."
+    }}
+  </p>
+  <button class="secondary" (click)="exporter.download()">
+    <lucide-icon name="download" [size]="18" />Exportar campaña
+    {{ notebook.year() }}
+  </button>
+  @if (session.demo) {
+    <button class="text-button" (click)="notebook.reset()">
+      Restaurar datos de ejemplo
+    </button>
+  }
+</section>

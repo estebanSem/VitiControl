@@ -1,0 +1,193 @@
+<section class="metrics" aria-label="Resumen de campaña">
+  <article class="metric">
+    <div>
+      <span>Superficie cultivada</span><lucide-icon name="sprout" [size]="20" />
+    </div>
+    <strong>{{ format.num(notebook.area(), 2) }}<small>ha</small></strong>
+    <p>
+      {{ notebook.data().parcels.length }} parcelas ·
+      {{ format.num(notebook.vines()) }} cepas
+    </p>
+  </article>
+  <article class="metric">
+    <div><span>Uva recogida</span><lucide-icon name="grape" [size]="20" /></div>
+    <strong>{{ format.num(notebook.totalKg()) }}<small>kg</small></strong>
+    <p>
+      @if (notebook.growth() !== null) {
+        <span class="positive"
+          >{{ notebook.growth()! >= 0 ? "+" : ""
+          }}{{ format.num(notebook.growth()!, 1) }} %</span
+        >
+        frente a {{ notebook.year() - 1 }}
+      } @else {
+        Sin datos de la campaña anterior
+      }
+    </p>
+  </article>
+  <article class="metric">
+    <div>
+      <span>Costes registrados</span><lucide-icon name="wallet" [size]="20" />
+    </div>
+    <strong>{{ format.euro(notebook.cost()) }}</strong>
+    <p>{{ notebook.records().length }} registros esta campaña</p>
+  </article>
+  <article class="metric accent">
+    <div>
+      <span>Trabajo pendiente</span
+      ><lucide-icon name="calendar-days" [size]="20" />
+    </div>
+    <strong>{{ notebook.pending().length }}<small>tareas</small></strong
+    ><button (click)="navigation.go('Agenda')">
+      Ver mi agenda <lucide-icon name="chevron-right" [size]="15" />
+    </button>
+  </article>
+</section>
+<div class="dashboard-grid">
+  <section class="panel production">
+    <div class="panel-heading">
+      <div>
+        <h2>La cosecha, parcela a parcela</h2>
+        <p>Kilos recogidos en la campaña {{ notebook.year() }}</p>
+      </div>
+      <span class="soft-tag">Vendimia</span>
+    </div>
+    <div class="plot">
+      <div class="plot-labels"><span>Producción</span><span>kg</span></div>
+      @for (p of notebook.data().parcels; track p.id) {
+        <div class="bar-row">
+          <div>
+            <strong>{{ p.name }}</strong
+            ><span>{{ p.variety }}</span>
+          </div>
+          <div class="bar-track">
+            <div
+              class="bar-fill"
+              [style.width.%]="
+                notebook.totalKg()
+                  ? (notebook.kg(p.id) / notebook.totalKg()) * 100
+                  : 0
+              "
+            ></div>
+          </div>
+          <strong>{{ format.num(notebook.kg(p.id)) }}<small> kg</small></strong>
+        </div>
+      } @empty {
+        <div class="empty">Añade tu primera parcela para empezar.</div>
+      }
+    </div>
+    <div class="chart-footer">
+      <span>Total de la campaña</span
+      ><strong>{{ format.num(notebook.totalKg()) }} kg</strong>
+    </div>
+  </section>
+  <section class="panel agenda-preview">
+    <div class="panel-heading">
+      <h2>Próximas tareas</h2>
+      <button class="text-button" (click)="navigation.go('Agenda')">
+        Ver todas <lucide-icon name="chevron-right" [size]="15" />
+      </button>
+    </div>
+    @for (r of notebook.pending().slice(0, 3); track r.id) {
+      <div class="task-preview">
+        <button
+          class="check-button"
+          aria-label="Completar tarea"
+          (click)="notebook.complete(r)"
+        >
+          <lucide-icon name="check" [size]="14" />
+        </button>
+        <div>
+          <strong>{{ r.title }}</strong
+          ><span>{{ notebook.parcel(r.parcel_id)?.name }}</span
+          ><small [class.overdue]="format.overdue(r)"
+            >{{ format.date(r.date)
+            }}{{
+              format.overdue(r)
+                ? " · Pendiente de
+                revisión"
+                : ""
+            }}</small
+          >
+        </div>
+      </div>
+    } @empty {
+      <div class="empty">
+        <lucide-icon name="check-check" [size]="28" />
+        <p>Todo al día.</p>
+        <button class="text-button" (click)="editor.openRecord('Tarea')">
+          Planificar una tarea
+        </button>
+      </div>
+    }
+    <div class="agenda-tip">
+      <lucide-icon name="calendar-days" [size]="17" /><span
+        >Un poco de planificación.<br />Una mejor campaña.</span
+      >
+    </div>
+  </section>
+</div>
+<section class="panel recent">
+  <div class="panel-heading">
+    <div>
+      <h2>Últimas labores</h2>
+      <p>Lo que ha pasado en tu viñedo</p>
+    </div>
+    <button class="text-button" (click)="navigation.go('Cuaderno de campo')">
+      Ver cuaderno <lucide-icon name="chevron-right" [size]="15" />
+    </button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Labor</th>
+          <th>Parcela</th>
+          <th>Fecha</th>
+          <th>Detalle</th>
+          <th>Coste</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of notebook.recent(); track r.id) {
+          <tr (click)="editor.view(r)">
+            <td>
+              <div class="labor-cell">
+                <span class="labor-icon" [class]="'labor-icon ' + r.kind"
+                  ><lucide-icon
+                    [name]="format.icon(r.kind)"
+                    [size]="18" /></span
+                ><strong>{{ r.title }}</strong>
+              </div>
+            </td>
+            <td>{{ notebook.parcel(r.parcel_id)?.name }}</td>
+            <td>{{ format.date(r.date) }}</td>
+            <td>
+              <span class="badge">{{ r.kind }}</span>
+            </td>
+            <td>{{ r.cost ? format.euro(r.cost) : "—" }}</td>
+            <td>
+              <button class="icon-button" aria-label="Ver registro">
+                <lucide-icon name="chevron-right" [size]="18" />
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty">
+              Aún no hay labores. Registra la primera.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="quick-record">
+  <span>¿Qué has hecho hoy?</span>
+  @for (k of ["Riego", "Tratamiento", "Poda", "Vendimia"]; track k) {
+    <button (click)="editor.openRecord(k)">
+      <lucide-icon [name]="format.icon(k)" [size]="17" />{{ k }}
+    </button>
+  }
+</div>

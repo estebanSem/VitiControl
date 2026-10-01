@@ -1,0 +1,16 @@
+<label
+  >Año<input
+    autofocus
+    type="number"
+    name="year"
+    [(ngModel)]="editor.form.year"
+    required
+    min="1900"
+    max="2100" /></label
+><label
+  >Nombre<input
+    name="name"
+    [(ngModel)]="editor.form.name"
+    maxlength="100"
+    placeholder="Ej. Campaña 2027"
+/></label>

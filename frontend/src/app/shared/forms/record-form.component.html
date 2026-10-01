@@ -1,0 +1,141 @@
+<div class="form-grid">
+  <label
+    >Tipo de labor<select
+      autofocus
+      name="kind"
+      [(ngModel)]="editor.form.kind"
+      (ngModelChange)="editor.kindChanged()"
+    >
+      @for (k of notebook.kinds; track k) {
+        <option>{{ k }}</option>
+      }
+    </select></label
+  ><label
+    >Parcela<select name="parcel" [(ngModel)]="editor.form.parcel_id" required>
+      @for (p of notebook.data().parcels; track p.id) {
+        <option [ngValue]="p.id">{{ p.name }}</option>
+      }
+    </select></label
+  ><label
+    >Fecha<input
+      type="date"
+      name="date"
+      [(ngModel)]="editor.form.date"
+      required /></label
+  ><label
+    >Campaña<select name="campaign" [(ngModel)]="editor.form.campaign">
+      @for (c of notebook.data().campaigns; track c.id) {
+        <option [ngValue]="c.year">{{ c.year }}</option>
+      }
+    </select></label
+  >
+</div>
+<label
+  >{{
+    editor.form.kind === "Tarea"
+      ? "¿Qué hay que hacer?"
+      : "Título del
+        registro"
+  }}<input
+    name="title"
+    [(ngModel)]="editor.form.title"
+    required
+    maxlength="150"
+    placeholder="Ej. Riego por goteo"
+/></label>
+@if (editor.form.kind === "Tratamiento" || editor.form.kind === "Abonado") {
+  <div class="form-grid">
+    <label
+      >Producto<input
+        name="product"
+        [(ngModel)]="editor.form.product"
+        [required]="editor.form.kind === 'Tratamiento'"
+        maxlength="150" /></label
+    ><label
+      >Dosis y unidad<input
+        name="dose"
+        [(ngModel)]="editor.form.dose"
+        placeholder="Ej. 2 kg/ha"
+        maxlength="100"
+    /></label>
+  </div>
+}
+@if (
+  editor.form.kind === "Vendimia" ||
+  editor.form.kind === "Riego" ||
+  editor.form.kind === "Abonado"
+) {
+  <div class="form-grid">
+    <label
+      >{{
+        editor.form.kind === "Vendimia"
+          ? "Kilos
+          recogidos"
+          : editor.form.kind === "Riego"
+            ? "Cantidad de riego"
+            : "Cantidad
+          aplicada"
+      }}<input
+        type="number"
+        name="quantity"
+        [(ngModel)]="editor.form.quantity"
+        required
+        [min]="editor.form.kind === 'Vendimia' ? 0.001 : 0"
+        step="0.001"
+    /></label>
+    @if (editor.form.kind === "Vendimia") {
+      <label
+        >Grado Brix (opcional)<input
+          type="number"
+          name="brix"
+          [(ngModel)]="editor.form.brix"
+          min="0"
+          max="60"
+          step="0.1"
+      /></label>
+    } @else {
+      <label
+        >Unidad<select name="unit" [(ngModel)]="editor.form.unit">
+          @for (u of ["h", "L", "m³", "kg", "g"]; track u) {
+            <option>{{ u }}</option>
+          }
+        </select></label
+      >
+    }
+  </div>
+}
+<label
+  >Coste (€)<input
+    type="number"
+    name="cost"
+    [(ngModel)]="editor.form.cost"
+    required
+    min="0"
+    step="0.01" /></label
+><label
+  >Observaciones<textarea
+    name="notes"
+    [(ngModel)]="editor.form.notes"
+    maxlength="5000"
+    rows="3"
+    placeholder="Lo que quieras recordar de esta labor…"
+  ></textarea></label
+><label class="checkbox-label"
+  ><input
+    type="checkbox"
+    name="completed"
+    [(ngModel)]="editor.form.completed"
+  />{{ editor.form.kind === "Tarea" ? "Tarea completada" : "Labor realizada"
+  }}<small>Desmarca para dejarla en la agenda.</small></label
+><label class="photo-upload"
+  ><lucide-icon name="camera" [size]="19" />{{
+    editor.pendingFile
+      ? editor.pendingFile.name
+      : "Adjuntar una
+        fotografía"
+  }}<small>JPEG, PNG o WebP · Máximo 5 MB</small
+  ><input
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    (change)="editor.fileSelected($event)"
+/></label>

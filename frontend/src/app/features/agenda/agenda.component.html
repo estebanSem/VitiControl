@@ -1,0 +1,67 @@
+<div class="agenda-summary">
+  <span class="large-count">{{ notebook.pending().length }}</span>
+  <div>
+    <strong>Tareas pendientes</strong>
+    <p>Marca una tarea cuando la hayas terminado.</p>
+  </div>
+</div>
+<div class="task-list">
+  @for (r of notebook.pending(); track r.id) {
+    <article class="panel task-card">
+      <button
+        class="check-button"
+        aria-label="Marcar como completada"
+        (click)="notebook.complete(r)"
+      >
+        <lucide-icon name="check" [size]="16" />
+      </button>
+      <div class="task-content">
+        <h2>{{ r.title }}</h2>
+        <p>
+          {{ notebook.parcel(r.parcel_id)?.name }} ·
+          {{ r.notes || "Sin observaciones" }}
+        </p>
+      </div>
+      <span class="badge" [class.late]="format.overdue(r)"
+        >{{ format.date(r.date)
+        }}{{ format.overdue(r) ? " · Atrasada" : "" }}</span
+      ><button
+        class="icon-button"
+        aria-label="Editar tarea"
+        (click)="editor.openRecord(r.kind, r)"
+      >
+        <lucide-icon name="pencil" [size]="17" />
+      </button>
+    </article>
+  } @empty {
+    <div class="panel empty">
+      <lucide-icon name="check-check" [size]="40" />
+      <h2>Tu agenda está al día</h2>
+      <p>Planifica la siguiente labor del viñedo.</p>
+      <button class="primary" (click)="editor.openRecord('Tarea')">
+        Nueva tarea
+      </button>
+    </div>
+  }
+</div>
+<section class="completed-tasks">
+  <h2>Trabajo completado</h2>
+  @for (r of notebook.records(); track r.id) {
+    @if (r.kind === "Tarea" && r.completed) {
+      <div class="panel task-card done">
+        <button
+          class="check-button"
+          aria-label="Reabrir tarea"
+          (click)="notebook.complete(r)"
+        >
+          <lucide-icon name="check" [size]="16" />
+        </button>
+        <div class="task-content">
+          <strong>{{ r.title }}</strong>
+          <p>{{ notebook.parcel(r.parcel_id)?.name }}</p>
+        </div>
+        <span>{{ format.date(r.date) }}</span>
+      </div>
+    }
+  }
+</section>
