@@ -1,0 +1,89 @@
+<div class="report-grid">
+  <article class="panel report-intro">
+    <span class="eyebrow">BALANCE DE CAMPAÑA</span>
+    <h2>{{ format.num(notebook.totalKg()) }} <span>kg de uva</span></h2>
+    <p>{{ format.euro(notebook.cost()) }} en costes registrados</p>
+    <div class="report-facts">
+      <div>
+        <strong
+          >{{
+            notebook.area()
+              ? format.num(notebook.totalKg() / notebook.area())
+              : "—"
+          }}
+          kg/ha</strong
+        ><span>Rendimiento registrado</span>
+      </div>
+      <div>
+        <strong>{{
+          notebook.totalKg()
+            ? format.euro(notebook.cost() / notebook.totalKg())
+            : "—"
+        }}</strong
+        ><span>Coste por kg (registros)</span>
+      </div>
+    </div>
+  </article>
+  <article class="panel">
+    <div class="panel-heading"><h2>Producción histórica</h2></div>
+    <div class="history-chart">
+      @for (c of notebook.data().campaigns.slice().reverse(); track c.id) {
+        <div class="history-col">
+          <strong>{{ format.num(notebook.historyKg(c.year)) }}</strong>
+          <div class="history-track">
+            <div
+              [style.height.%]="
+                notebook.historyMax()
+                  ? (notebook.historyKg(c.year) / notebook.historyMax()) * 100
+                  : 0
+              "
+              [class.selected]="notebook.year() === c.year"
+            ></div>
+          </div>
+          <span>{{ c.year }}</span>
+        </div>
+      }
+    </div>
+    <p class="chart-caption">Kilos de vendimias registradas y completadas</p>
+  </article>
+</div>
+<section class="panel">
+  <div class="panel-heading">
+    <div>
+      <h2>Detalle por parcela</h2>
+      <p>Comparación de producción y costes</p>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Parcela</th>
+          <th>Variedad</th>
+          <th>Superficie</th>
+          <th>Producción</th>
+          <th>kg / ha</th>
+          <th>Costes</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of notebook.data().parcels; track p.id) {
+          <tr>
+            <td>
+              <strong>{{ p.name }}</strong>
+            </td>
+            <td>{{ p.variety }}</td>
+            <td>{{ format.num(p.area, 2) }} ha</td>
+            <td>{{ format.num(notebook.kg(p.id)) }} kg</td>
+            <td>{{ format.num(notebook.kg(p.id) / p.area) }}</td>
+            <td>{{ format.euro(notebook.parcelCost(p.id)) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+<p class="report-note">
+  Los resultados incluyen únicamente lo que has registrado. No representan un
+  balance contable completo.
+</p>

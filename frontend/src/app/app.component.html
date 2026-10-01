@@ -1,0 +1,129 @@
+@if (session.loading()) {
+  <div class="login-page">
+    <span class="brand-mark">V</span>
+    <h2>Abriendo tu cuaderno…</h2>
+  </div>
+} @else if (!session.logged()) {
+  <app-login />
+} @else {
+  <div class="app-shell">
+    <app-sidebar />
+    @if (navigation.menuOpen) {
+      <button
+        class="nav-overlay"
+        aria-label="Cerrar menú"
+        (click)="navigation.menuOpen = false"
+      ></button>
+    }
+    <div class="main-shell">
+      <app-header />
+      <main>
+        @if (session.demo) {
+          <div class="demo-bar">
+            <span
+              ><span class="demo-dot"></span>Datos de ejemplo · Los cambios se
+              guardan solo en este navegador</span
+            ><button (click)="notebook.reset()">Restaurar demo</button>
+          </div>
+        }
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">CUADERNO DE CAMPO / {{ notebook.year() }}</div>
+            <h1>
+              {{
+                notebook.selectedParcel()
+                  ? notebook.parcel(notebook.selectedParcel()!)?.name
+                  : navigation.page() === "Resumen"
+                    ? "Una
+            mirada a tu viñedo."
+                    : navigation.page()
+              }}
+            </h1>
+            <p>
+              {{
+                navigation.page() === "Resumen"
+                  ? "El trabajo de todo un año, a
+            mano."
+                  : navigation.page() === "Parcelas"
+                    ? "Cada parcela tiene su historia. Cuídala
+            desde aquí."
+                    : navigation.page() === "Cuaderno de campo"
+                      ? "Riegos, tratamientos y
+            labores. Todo queda registrado."
+                      : navigation.page() === "Agenda"
+                        ? "Organiza el
+            trabajo que viene."
+                        : navigation.page() === "Informes"
+                          ? "De los registros a las
+            decisiones."
+                          : "Tu espacio y tus campañas."
+              }}
+            </p>
+          </div>
+          <div class="heading-actions">
+            @if (navigation.page() === "Parcelas") {
+              <button class="primary" (click)="editor.openParcel()">
+                <lucide-icon name="plus" [size]="18" />Nueva parcela
+              </button>
+            } @else if (navigation.page() === "Informes") {
+              <button class="primary" (click)="exporter.download()">
+                <lucide-icon name="download" [size]="18" />Exportar CSV
+              </button>
+            } @else if (navigation.page() === "Configuración") {
+              <button class="primary" (click)="editor.openCampaign()">
+                <lucide-icon name="plus" [size]="18" />Nueva campaña
+              </button>
+            } @else {
+              <button
+                class="primary"
+                (click)="
+                  editor.openRecord(
+                    navigation.page() === 'Agenda' ? 'Tarea' : 'Riego'
+                  )
+                "
+              >
+                <lucide-icon name="plus" [size]="18" />{{
+                  navigation.page() === "Agenda"
+                    ? "Nueva
+            tarea"
+                    : "Registrar labor"
+                }}
+              </button>
+            }
+          </div>
+        </div>
+        @if (ui.error() && !editor.modal()) {
+          <div class="error" role="alert">{{ ui.error() }}</div>
+        }
+        @if (navigation.page() === "Resumen") {
+          <app-dashboard />
+        }
+        @if (navigation.page() === "Parcelas") {
+          <app-parcels />
+        }
+        @if (navigation.page() === "Cuaderno de campo") {
+          <app-notebook />
+        }
+        @if (navigation.page() === "Agenda") {
+          <app-agenda />
+        }
+        @if (navigation.page() === "Informes") {
+          <app-reports />
+        }
+        @if (navigation.page() === "Configuración") {
+          <app-settings />
+        }
+        <footer>
+          VitiControl <span>Hecho para cuidar de lo que cultivas.</span
+          ><span class="footer-year">Campaña {{ notebook.year() }}</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+}
+@if (ui.toast()) {
+  <div class="toast" role="status">
+    <lucide-icon name="check" [size]="18" />{{ ui.toast() }}
+  </div>
+}
+<app-editor-dialog />

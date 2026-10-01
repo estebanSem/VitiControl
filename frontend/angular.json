@@ -64,6 +64,11 @@
           "options": {
             "buildTarget": "viticontrol:build",
             "proxyConfig": "proxy.conf.json"
+          },
+          "configurations": {
+            "demo": {
+              "buildTarget": "viticontrol:build:demo"
+            }
           }
         }
       }

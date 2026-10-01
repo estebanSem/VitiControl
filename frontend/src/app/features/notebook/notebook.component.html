@@ -1,0 +1,104 @@
+<div class="toolbar">
+  <label class="search-box"
+    ><lucide-icon name="search" [size]="18" /><input
+      placeholder="Buscar una labor…"
+      aria-label="Buscar registros"
+      [ngModel]="notebook.search()"
+      (ngModelChange)="notebook.search.set($event)" /></label
+  ><select
+    aria-label="Filtrar tipo"
+    [ngModel]="notebook.filter()"
+    (ngModelChange)="notebook.filter.set($event)"
+  >
+    <option>Todas</option>
+    @for (k of notebook.kinds; track k) {
+      <option>{{ k }}</option>
+    }
+  </select>
+  @if (!notebook.selectedParcel()) {
+    <select
+      aria-label="Filtrar parcela"
+      [ngModel]="notebook.parcelFilter()"
+      (ngModelChange)="notebook.parcelFilter.set(+$event)"
+    >
+      <option [ngValue]="0">Todas las parcelas</option>
+      @for (p of notebook.data().parcels; track p.id) {
+        <option [ngValue]="p.id">{{ p.name }}</option>
+      }
+    </select>
+  }
+  <button class="secondary" (click)="exporter.download()">
+    <lucide-icon name="download" [size]="17" />CSV
+  </button>
+</div>
+<div class="panel">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Labor / observaciones</th>
+          <th>Parcela</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Cantidad</th>
+          <th>Coste</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of notebook.filtered(); track r.id) {
+          <tr>
+            <td>
+              <button class="record-link" (click)="editor.view(r)">
+                <span class="labor-icon"
+                  ><lucide-icon
+                    [name]="format.icon(r.kind)"
+                    [size]="18" /></span
+                ><span
+                  ><strong>{{ r.title }}</strong
+                  ><small>{{
+                    r.notes ||
+                      (!r.completed
+                        ? "Pendiente"
+                        : "Registro
+                        completado")
+                  }}</small></span
+                >
+              </button>
+            </td>
+            <td>{{ notebook.parcel(r.parcel_id)?.name }}</td>
+            <td>{{ format.date(r.date) }}</td>
+            <td>
+              <span class="badge">{{ r.kind }}</span>
+            </td>
+            <td>
+              {{ r.quantity ? format.num(r.quantity, 2) + " " + r.unit : "—" }}
+            </td>
+            <td>{{ r.cost ? format.euro(r.cost) : "—" }}</td>
+            <td>
+              <button
+                class="icon-button"
+                aria-label="Editar labor"
+                (click)="editor.openRecord(r.kind, r)"
+              >
+                <lucide-icon name="pencil" [size]="17" />
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty">
+              <p>No hay registros con estos filtros.</p>
+              <button class="text-button" (click)="editor.openRecord()">
+                Registrar una labor
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="table-footer">
+    {{ notebook.filtered().length }} registros · Campaña {{ notebook.year() }}
+  </div>
+</div>

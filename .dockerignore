@@ -6,3 +6,8 @@ dist
 **/__pycache__
 **/*.db
 **/uploads
+
+frontend/test-results
+frontend/playwright-report
+backend/.venv
+**/.pytest_cache

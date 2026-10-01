@@ -1,0 +1,59 @@
+<label
+  >Nombre de la parcela<input
+    autofocus
+    name="name"
+    [(ngModel)]="editor.form.name"
+    required
+    maxlength="100"
+    placeholder="Ej. El Bancal"
+/></label>
+<div class="form-grid">
+  <label
+    >Variedad de uva<input
+      name="variety"
+      [(ngModel)]="editor.form.variety"
+      required
+      maxlength="100"
+      placeholder="Ej. Monastrell" /></label
+  ><label
+    >Superficie (ha)<input
+      type="number"
+      name="area"
+      [(ngModel)]="editor.form.area"
+      required
+      min="0.001"
+      max="100000"
+      step="0.001" /></label
+  ><label
+    >Número de cepas<input
+      type="number"
+      name="vines"
+      [(ngModel)]="editor.form.vines"
+      required
+      min="0"
+      step="1" /></label
+  ><label
+    >Año de plantación<input
+      type="number"
+      name="planted"
+      [(ngModel)]="editor.form.planted"
+      required
+      min="1800"
+      max="2100"
+  /></label>
+</div>
+<label
+  >Ubicación<input
+    name="location"
+    [(ngModel)]="editor.form.location"
+    maxlength="150"
+    placeholder="Partida, camino o referencia" /></label
+><label
+  >Observaciones<textarea
+    name="notes"
+    [(ngModel)]="editor.form.notes"
+    maxlength="5000"
+    rows="3"
+    placeholder="Suelo, orientación, particularidades…"
+  ></textarea>
+</label>

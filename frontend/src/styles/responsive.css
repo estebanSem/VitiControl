@@ -1,0 +1,367 @@
+@media (min-width: 1600px) {
+  main {
+    padding-top: 35px;
+  }
+  .page-heading {
+    margin-bottom: 35px;
+  }
+  .metrics {
+    margin-bottom: 30px;
+  }
+  .bar-row {
+    margin-bottom: 31px;
+  }
+  .task-preview {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  td {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+}
+@media (max-width: 1200px) {
+  aside {
+    width: 215px;
+    padding: 30px 15px 0;
+  }
+  .main-shell {
+    margin-left: 215px;
+  }
+  header {
+    padding: 0 28px;
+  }
+  main {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .metric {
+    padding: 18px 16px;
+  }
+  .metric > strong {
+    font-size: 1.6rem;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1.5fr 1fr;
+  }
+  .panel-heading {
+    padding: 21px 20px;
+  }
+  .bar-row {
+    grid-template-columns: 85px 1fr 64px;
+    gap: 10px;
+  }
+  .parcel-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  th,
+  td {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (max-width: 980px) {
+  aside {
+    width: 200px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .main-shell {
+    margin-left: 200px;
+  }
+  .brand {
+    font-size: 1.2rem;
+    gap: 7px;
+  }
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .agenda-preview .agenda-tip {
+    display: none;
+  }
+  .agenda-preview {
+    padding-bottom: 12px;
+  }
+  .agenda-preview .task-preview {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .page-heading {
+    align-items: flex-start;
+  }
+  h1 {
+    font-size: 1.7rem;
+  }
+  .heading-actions .primary {
+    padding: 11px 12px;
+  }
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .toolbar .search-box {
+    flex-basis: 100%;
+  }
+  .parcel-grid {
+    grid-template-columns: 1fr;
+  }
+  .season-note {
+    padding: 14px 10px;
+  }
+  header {
+    height: 70px;
+  }
+}
+@media (max-width: 700px) {
+  aside {
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    width: 250px;
+    padding: 26px 22px 0;
+  }
+  aside.open {
+    transform: translateX(0);
+  }
+  .nav-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #21123166;
+    z-index: 15;
+  }
+  .main-shell {
+    margin: 0;
+  }
+  .mobile-menu {
+    display: inline-grid;
+  }
+  .breadcrumb {
+    gap: 8px;
+  }
+  .breadcrumb > span,
+  .breadcrumb > lucide-icon {
+    display: none;
+  }
+  header {
+    padding: 0 20px;
+    height: 66px;
+  }
+  .campaign-label,
+  .avatar.small {
+    display: none;
+  }
+  main {
+    padding: 20px 18px 0;
+  }
+  .demo-bar {
+    align-items: flex-start;
+    font-size: 0.75rem;
+    margin-bottom: 24px;
+  }
+  .demo-bar > span {
+    display: block;
+    line-height: 1.5;
+    max-width: 240px;
+  }
+  .demo-bar .demo-dot {
+    display: inline-block;
+    margin-right: 4px;
+  }
+  .demo-bar button {
+    font-size: 0.75rem;
+  }
+  .page-heading {
+    display: block;
+    margin-bottom: 24px;
+  }
+  .page-heading h1 {
+    font-size: 1.75rem;
+  }
+  .page-heading p {
+    font-size: 0.88rem;
+  }
+  .heading-actions {
+    margin-top: 18px;
+  }
+  .heading-actions .primary {
+    width: 100%;
+    padding: 12px;
+  }
+  .metrics {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    padding: 17px 14px;
+  }
+  .metric > div {
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+  .metric > div span {
+    font-size: 0.81rem;
+  }
+  .metric > div lucide-icon {
+    width: 17px;
+  }
+  .metric > strong {
+    font-size: 1.7rem;
+  }
+  .metric strong small {
+    font-size: 0.82rem;
+    margin-left: 5px;
+  }
+  .metric p {
+    font-size: 0.75rem;
+    min-height: 30px;
+  }
+  .metric.accent button {
+    margin-top: 12px;
+  }
+  .dashboard-grid {
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .panel-heading {
+    padding: 21px 18px;
+  }
+  .panel-heading h2 {
+    font-size: 0.96rem;
+  }
+  .panel-heading p {
+    font-size: 0.75rem;
+  }
+  .plot {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .bar-row {
+    grid-template-columns: 78px 1fr 65px;
+    gap: 9px;
+  }
+  .bar-row > div:first-child strong {
+    font-size: 0.8rem;
+  }
+  .bar-row > div:first-child span {
+    font-size: 0.75rem;
+  }
+  .bar-row > strong {
+    font-size: 0.82rem;
+  }
+  .bar-track {
+    height: 23px;
+  }
+  .chart-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .recent .panel-heading p {
+    display: none;
+  }
+  th,
+  td {
+    padding: 13px 18px;
+  }
+  .quick-record {
+    gap: 8px;
+  }
+  .quick-record > span {
+    width: 100%;
+    margin-bottom: 3px;
+  }
+  .quick-record button {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+  footer {
+    padding-top: 25px;
+    font-size: 0.75rem;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .footer-year {
+    display: none;
+  }
+  .task-card {
+    padding: 18px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .task-content {
+    min-width: 180px;
+  }
+  .task-card .badge {
+    margin-left: 33px;
+  }
+  .task-card h2 {
+    font-size: 0.91rem;
+  }
+  .task-card .icon-button {
+    margin-left: auto;
+  }
+  .toolbar {
+    gap: 8px;
+  }
+  .toolbar select {
+    max-width: calc(50% - 4px);
+    flex: 1;
+    padding: 11px 8px;
+    font-size: 0.82rem;
+  }
+  .toolbar .secondary {
+    padding: 10px;
+    font-size: 0.82rem;
+  }
+  .modal-backdrop {
+    padding: 12px;
+  }
+  .modal {
+    padding: 23px 20px;
+    max-height: 95vh;
+  }
+  .modal-heading h2 {
+    font-size: 1.18rem;
+  }
+  .form-grid {
+    gap: 0 12px;
+  }
+  .report-intro h2 {
+    font-size: 2rem;
+  }
+  .settings-panel {
+    padding: 21px;
+  }
+  .settings-panel > .text-button {
+    display: flex;
+    margin: 18px 0 0;
+  }
+  .campaign-row {
+    gap: 12px;
+  }
+  .campaign-row strong {
+    font-size: 0.82rem;
+  }
+  .campaign-row .secondary {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+  .history-chart {
+    padding: 0 25px;
+  }
+  .toast {
+    font-size: 0.82rem;
+    width: max-content;
+    max-width: 90vw;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

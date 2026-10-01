@@ -3,6 +3,12 @@
 Cuaderno de campo familiar. Angular 20 + FastAPI + SQLAlchemy + PostgreSQL 16.
 Interfaz en español, adaptable al móvil, con blanco, negro y morado.
 
+## Estructura de desarrollo
+
+Consulta [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md) para la separación de vistas,
+formularios, servicios, modelos, schemas y rutas. Los puntos de entrada son
+`frontend/src/main.ts` y `backend/main.py`; la lógica está en sus módulos.
+
 ## Qué incluye
 
 - Parcelas: variedad, hectáreas, cepas, año de plantación, ubicación y observaciones.
@@ -18,7 +24,7 @@ Interfaz en español, adaptable al móvil, con blanco, negro y morado.
 
 ## Arranque completo con Docker (recomendado)
 
-Necesitas Docker Desktop con Compose.
+Necesitas Docker con Compose. También puedes usar GitHub Codespaces.
 
 ```bash
 cp .env.example .env
@@ -32,7 +38,10 @@ Para cargar datos ficticios en una base vacía: `SEED_DEMO=true` en `.env` y rec
 No se importa si ya existen campañas. La demo no representa recomendaciones de tratamiento.
 
 Una misma aplicación FastAPI sirve el frontend compilado y `/api`. La base de datos
-no expone puertos y los datos/fotografías permanecen en volúmenes Docker.
+no publica el puerto 5432 y los datos/fotografías permanecen en volúmenes Docker.
+La configuración actual comparte la red de `db` con `app` para funcionar en
+Codespaces: la conexión utiliza `127.0.0.1:5432`, y `db` publica el puerto 8000
+de la aplicación. En Codespaces abre ese puerto desde la pestaña **Ports**.
 
 ```bash
 docker compose logs -f app
@@ -91,9 +100,16 @@ La compilación normal (`npm run build`) siempre utiliza FastAPI: nunca cae a la
 cd backend
 python -m pytest -q
 cd ../frontend
-npm run build
 npm run build:demo
+npm run build
+npx playwright install chromium
+npm run test:e2e
+npm run test:integration
 ```
+
+Las pruebas de navegador comprueban todas las vistas, los tres formularios,
+la persistencia de la demo y el menú móvil. GitHub Actions añade validación
+del backend, frontend y arranque Docker con PostgreSQL.
 
 La prueba integra acceso privado, validación, campañas duplicadas, alta/edición/eliminación,
 relaciones, bloqueo de borrado con histórico, fotografías, CSV y logout.

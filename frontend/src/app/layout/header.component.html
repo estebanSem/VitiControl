@@ -1,0 +1,26 @@
+<header>
+  <div class="breadcrumb">
+    <button
+      class="icon-button mobile-menu"
+      aria-label="Abrir menú"
+      (click)="navigation.menuOpen = !navigation.menuOpen"
+    >
+      <lucide-icon name="menu" [size]="22" /></button
+    ><span>Mi viñedo</span
+    ><lucide-icon name="chevron-right" [size]="14" /><strong>{{
+      navigation.page()
+    }}</strong>
+  </div>
+  <div class="header-right">
+    <span class="campaign-label">CAMPAÑA</span
+    ><select
+      aria-label="Campaña"
+      [ngModel]="notebook.year()"
+      (ngModelChange)="notebook.year.set(+$event)"
+    >
+      @for (c of notebook.data().campaigns; track c.id) {
+        <option [ngValue]="c.year">{{ c.year }}</option>
+      }</select
+    ><span class="avatar small">VC</span>
+  </div>
+</header>
